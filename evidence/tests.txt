@@ -1,0 +1,72 @@
+
+> tcp-worker-demo@1.0.0 test
+> npm run build && npm run test:frontend && node --test dist/server/test/*.test.js
+
+
+> tcp-worker-demo@1.0.0 build
+> npm run build:server && tsc -p tsconfig.web.json && vite build
+
+
+> tcp-worker-demo@1.0.0 build:server
+> tsc -p tsconfig.server.json
+
+vite v8.3.1 building client environment for production...
+transforming...
+✓ 19 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/web/index.html                   0.35 kB │ gzip:  0.26 kB
+dist/web/assets/index-CT6MJ5b9.css    5.94 kB │ gzip:  1.78 kB
+dist/web/assets/index-BI-xC5Pp.js   200.88 kB │ gzip: 63.43 kB
+
+✓ built in 44ms
+
+> tcp-worker-demo@1.0.0 test:frontend
+> tsc -p tsconfig.ui-tests.json && node --test dist/ui/web/*.test.js
+
+✔ initial frontend has empty requests, server configuration, and no demo presets (4.16925ms)
+✔ shared browser/server validation preserves arguments and accepts CRLF batches (0.728083ms)
+✔ live snapshot supplies authoritative workers, queue, and active jobs (0.0985ms)
+✔ responses preserve arrival order and other run IDs cannot mix into a batch (0.0765ms)
+✔ disconnect releases UI controls, preserves input/results, and does not replay work (0.068292ms)
+✔ cancel and failed runs release pending state and keep error visible (0.060083ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 67.22725
+✔ HTTP bridge serves UI, streams real TCP results, and rejects overlapping runs (1668.166625ms)
+✔ one TCP client feeds four simultaneously active workers (208.495417ms)
+✔ same-client CPU jobs run on separate workers and compute correct counts (111.188583ms)
+✔ UPPER finishes before the preceding slow request (215.511417ms)
+✔ three clients receive only their own results (19.754458ms)
+✔ split UTF-8 frames and coalesced frames are reconstructed (29.479833ms)
+✔ invalid and oversized messages return ERROR and framing recovers (18.176584ms)
+✔ full bounded queue returns BUSY for the rejected request (317.015666ms)
+✔ five-client connection cap is enforced (23.306208ms)
+✔ disconnect during processing does not break workers or other clients (127.171375ms)
+✔ graceful shutdown completes accepted running and queued jobs (128.628334ms)
+✔ shutdown timeout cancels remaining work and terminates workers (60.442708ms)
+✔ half-closed send side still receives accepted job responses (127.366875ms)
+✔ duplicate pending IDs are rejected without replacing the accepted job (130.183209ms)
+✔ Unicode uppercase expansion is supported at the maximum request length (29.398708ms)
+✔ framer reconstructs split UTF-8 and multiple messages in one chunk (0.769625ms)
+✔ framer bounds messages, discards oversized remainder, then recovers (0.269333ms)
+✔ protocol accepts limits and rejects malformed arguments and operations (0.401792ms)
+✔ bridge validation rejects duplicate IDs and oversized batches (0.2475ms)
+✔ four worker threads start same-client jobs before any finishes (175.9605ms)
+✔ CPU work executes on separate threads with correct prime counts (119.796167ms)
+✔ bounded queue rejects excess work and drains accepted work at shutdown (100.035875ms)
+✔ shutdown timeout cancels queued and active jobs without waiting for delay (51.920875ms)
+✔ fast work can finish before a slow job from the same client (166.256417ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1715.91875

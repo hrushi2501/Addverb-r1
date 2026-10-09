@@ -1,0 +1,80 @@
+
+> tcp-worker-demo@1.0.0 demo
+> npm run build:server && node dist/server/demo.js
+
+
+> tcp-worker-demo@1.0.0 build:server
+> tsc -p tsconfig.server.json
+
+
+DEMO compare
+{"type":"phase","label":"One worker","workers":1,"clients":1}
+09:06:16.447 START client=C1 request=r1 worker=worker-1
+09:06:18.449 END   client=C1 request=r1 worker=worker-1 duration=2002ms
+{"type":"response","id":"r1","status":"OK","result":"Simulated processing: 2000ms","client":"Client 1","elapsedMs":2014}
+09:06:18.451 START client=C1 request=r2 worker=worker-1
+09:06:20.452 END   client=C1 request=r2 worker=worker-1 duration=2001ms
+{"type":"response","id":"r2","status":"OK","result":"Simulated processing: 2000ms","client":"Client 1","elapsedMs":4016}
+09:06:20.453 START client=C1 request=r3 worker=worker-1
+09:06:22.454 END   client=C1 request=r3 worker=worker-1 duration=2001ms
+{"type":"response","id":"r3","status":"OK","result":"Simulated processing: 2000ms","client":"Client 1","elapsedMs":6018}
+09:06:22.455 START client=C1 request=r4 worker=worker-1
+09:06:24.456 END   client=C1 request=r4 worker=worker-1 duration=2001ms
+{"type":"response","id":"r4","status":"OK","result":"Simulated processing: 2000ms","client":"Client 1","elapsedMs":8020}
+{"type":"summary","label":"One worker","workers":1,"elapsedMs":8022}
+{"type":"phase","label":"Four workers","workers":4,"clients":1}
+09:06:24.486 START client=C2 request=r1 worker=worker-1
+09:06:24.486 START client=C2 request=r2 worker=worker-2
+09:06:24.488 START client=C2 request=r3 worker=worker-3
+09:06:24.488 START client=C2 request=r4 worker=worker-4
+09:06:26.487 END   client=C2 request=r1 worker=worker-1 duration=2000ms
+{"type":"response","id":"r1","status":"OK","result":"Simulated processing: 2000ms","client":"Client 1","elapsedMs":2025}
+09:06:26.488 END   client=C2 request=r2 worker=worker-2 duration=2001ms
+{"type":"response","id":"r2","status":"OK","result":"Simulated processing: 2000ms","client":"Client 1","elapsedMs":2025}
+09:06:26.489 END   client=C2 request=r3 worker=worker-3 duration=2001ms
+09:06:26.489 END   client=C2 request=r4 worker=worker-4 duration=2001ms
+{"type":"response","id":"r3","status":"OK","result":"Simulated processing: 2000ms","client":"Client 1","elapsedMs":2027}
+{"type":"response","id":"r4","status":"OK","result":"Simulated processing: 2000ms","client":"Client 1","elapsedMs":2027}
+{"type":"summary","label":"Four workers","workers":4,"elapsedMs":2027}
+{"type":"comparison","sequentialMs":8022,"parallelMs":2027,"speedup":3.96}
+
+DEMO mixed
+{"type":"phase","label":"Slow + fast","workers":4,"clients":1}
+09:06:26.518 START client=C3 request=fast worker=worker-2
+09:06:26.518 END   client=C3 request=fast worker=worker-2 duration=0ms
+09:06:26.518 START client=C3 request=slow worker=worker-1
+{"type":"response","id":"fast","status":"OK","result":"HELLO WORLD","client":"Client 1","elapsedMs":26}
+09:06:29.520 END   client=C3 request=slow worker=worker-1 duration=3001ms
+{"type":"response","id":"slow","status":"OK","result":"Simulated processing: 3000ms","client":"Client 1","elapsedMs":3028}
+{"type":"summary","label":"Slow + fast","workers":4,"elapsedMs":3029}
+
+DEMO clients
+{"type":"phase","label":"Three clients","workers":4,"clients":3}
+09:06:29.549 START client=C4 request=c1-a worker=worker-1
+09:06:29.549 START client=C4 request=c1-c worker=worker-3
+09:06:29.549 END   client=C4 request=c1-c worker=worker-3 duration=0ms
+{"type":"response","id":"c1-c","status":"OK","result":"HELLO FROM CLIENT 1","client":"Client 1","elapsedMs":25}
+09:06:29.549 START client=C5 request=c2-b worker=worker-3
+09:06:29.550 START client=C4 request=c1-b worker=worker-2
+09:06:29.551 START client=C5 request=c2-a worker=worker-4
+09:06:29.589 END   client=C4 request=c1-b worker=worker-2 duration=39ms
+09:06:29.589 START client=C5 request=c2-c worker=worker-2
+09:06:29.589 END   client=C5 request=c2-c worker=worker-2 duration=0ms
+{"type":"response","id":"c1-b","status":"OK","result":"41538","client":"Client 1","elapsedMs":65}
+09:06:29.589 START client=C6 request=c3-a worker=worker-2
+{"type":"response","id":"c2-c","status":"OK","result":"HELLO FROM CLIENT 2","client":"Client 2","elapsedMs":65}
+09:06:29.589 END   client=C5 request=c2-b worker=worker-3 duration=40ms
+{"type":"response","id":"c2-b","status":"OK","result":"41538","client":"Client 2","elapsedMs":65}
+09:06:29.589 START client=C6 request=c3-b worker=worker-3
+09:06:29.618 END   client=C6 request=c3-b worker=worker-3 duration=28ms
+09:06:29.618 START client=C6 request=c3-c worker=worker-3
+09:06:29.618 END   client=C6 request=c3-c worker=worker-3 duration=0ms
+{"type":"response","id":"c3-b","status":"OK","result":"41538","client":"Client 3","elapsedMs":94}
+{"type":"response","id":"c3-c","status":"OK","result":"HELLO FROM CLIENT 3","client":"Client 3","elapsedMs":94}
+09:06:30.550 END   client=C4 request=c1-a worker=worker-1 duration=1001ms
+{"type":"response","id":"c1-a","status":"OK","result":"Simulated processing: 1000ms","client":"Client 1","elapsedMs":1027}
+09:06:30.552 END   client=C5 request=c2-a worker=worker-4 duration=1001ms
+{"type":"response","id":"c2-a","status":"OK","result":"Simulated processing: 1000ms","client":"Client 2","elapsedMs":1028}
+09:06:30.590 END   client=C6 request=c3-a worker=worker-2 duration=1001ms
+{"type":"response","id":"c3-a","status":"OK","result":"Simulated processing: 1000ms","client":"Client 3","elapsedMs":1067}
+{"type":"summary","label":"Three clients","workers":4,"elapsedMs":1068}

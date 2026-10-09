@@ -1,0 +1,48 @@
+
+> tcp-worker-demo@1.0.0 test:unit
+> npm run build:server && node --test dist/server/test/unit.test.js dist/server/test/live-unit.test.js && npm run test:frontend
+
+
+> tcp-worker-demo@1.0.0 build:server
+> tsc -p tsconfig.server.json
+
+✔ actual WebSocket handshake sends status and correlated run results (8.021125ms)
+✔ WebSocket origin checks reject foreign pages (0.144584ms)
+✔ malformed JSON, invalid batches, and preset commands return errors (6.798917ms)
+✔ cancel targets the matching run and aborts its TCP bridge signal (11.237458ms)
+✔ WebSocket disconnect cancels its run without replaying it (11.9365ms)
+✔ framer reconstructs split UTF-8 and multiple messages in one chunk (0.599083ms)
+✔ framer bounds messages, discards oversized remainder, then recovers (0.111709ms)
+✔ protocol accepts limits and rejects malformed arguments and operations (0.192ms)
+✔ bridge validation rejects duplicate IDs and oversized batches (0.12725ms)
+✔ four worker threads start same-client jobs before any finishes (169.071375ms)
+✔ CPU work executes on separate threads with correct prime counts (100.236791ms)
+✔ bounded queue rejects excess work and drains accepted work at shutdown (92.806791ms)
+✔ shutdown timeout cancels queued and active jobs without waiting for delay (51.931459ms)
+✔ fast work can finish before a slow job from the same client (168.623292ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 629.167375
+
+> tcp-worker-demo@1.0.0 test:frontend
+> tsc -p tsconfig.ui-tests.json && node --test dist/ui/web/*.test.js
+
+✔ initial frontend has empty requests, server configuration, and no demo presets (4.024959ms)
+✔ shared browser/server validation preserves arguments and accepts CRLF batches (0.429875ms)
+✔ live snapshot supplies authoritative workers, queue, and active jobs (0.088708ms)
+✔ responses preserve arrival order and other run IDs cannot mix into a batch (0.07ms)
+✔ disconnect releases UI controls, preserves input/results, and does not replay work (0.06775ms)
+✔ cancel and failed runs release pending state and keep error visible (0.049583ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 62.731167
